@@ -18,7 +18,7 @@ class Window(QMainWindow):
         response = requests.get('https://goweather.herokuapp.com/weather/' + city)
         print(response.status_code)
         weather = json.loads(response.text)
-
+        
         if response.status_code == 503: # failure
             QLabel('The source site is down right now. \nPlease try again a few minutes later.', self.ui.error_box).show()
         elif response.status_code == 404:
@@ -34,44 +34,26 @@ class Window(QMainWindow):
 
             icon = QLabel(self.ui.today_icon)
             QLabel('Forecast for the next 3 days:', self.ui.forcast_box).show()
-            day1_icon = QLabel(self.ui.day1_icon)
-            day2_icon = QLabel(self.ui.day2_icon)
-            day3_icon = QLabel(self.ui.day3_icon)
 
             if description == 'Partly cloudy':
                 icon.setStyleSheet("image : url(assets/partly.png);") 
-                day1_icon.setStyleSheet("image : url(assets/partly64.png);")
-                day2_icon.setStyleSheet("image : url(assets/partly64.png);")
-                day3_icon.setStyleSheet("image : url(assets/partly64.png);")
             
             if description == 'Clear' or description == 'Sunny':
                 icon.setStyleSheet("image : url(assets/sunny.png);") 
-                day1_icon.setStyleSheet("image : url(assets/sunny64.png);")
-                day2_icon.setStyleSheet("image : url(assets/sunny64.png);")
-                day3_icon.setStyleSheet("image : url(assets/sunny64.png);")
 
             if description == 'Rainy' or description == 'Light rain shower' or description == 'Light rain':
                 icon.setStyleSheet("image : url(assets/rainy.png);") 
-                day1_icon.setStyleSheet("image : url(assets/rainy64.png);")
-                day2_icon.setStyleSheet("image : url(assets/rainy64.png);")
-                day3_icon.setStyleSheet("image : url(assets/rainy64.png);")
 
             if description == 'Snowy' or description == 'Patchy snow nearby':
                 icon.setStyleSheet("image : url(assets/snowy.png);") 
-                day1_icon.setStyleSheet("image : url(assets/snowy64.png);")
-                day2_icon.setStyleSheet("image : url(assets/snowy64.png);")
-                day3_icon.setStyleSheet("image : url(assets/snowy64.png);")
             
             icon.resize(128,128)
-            day1_icon.resize(64,64)
-            day2_icon.resize(64,64)
-            day3_icon.resize(64,64)
             icon.show()
-            day1_icon.show()
-            day2_icon.show()
-            day3_icon.show()
             
             forecast = weather['forecast']
+            QLabel('Day 1', self.ui.day1_icon).show()
+            QLabel('Day 2', self.ui.day2_icon).show()
+            QLabel('Day 3', self.ui.day3_icon).show()
             QLabel(forecast[0]['temperature'], self.ui.day1_temp).show()
             QLabel(forecast[0]['wind'], self.ui.day1_wind).show()
             QLabel(forecast[1]['temperature'], self.ui.day2_temp).show()
